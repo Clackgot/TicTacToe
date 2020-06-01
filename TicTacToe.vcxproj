@@ -72,11 +72,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\PDCurses3.4;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\PDCurses3.4\curses;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\User\AppData\Local\Temp\pdcurs34;C:\PDCurses3.4;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\User\AppData\Local\Temp\pdcurs34\win32;C:\PDCurses3.4\curses;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\User\AppData\Local\Temp\pdcurs34;C:\Users\User\AppData\Local\Temp\pdcurs34;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\User\AppData\Local\Temp\pdcurs34\win32;C:\Users\User\AppData\Local\Temp\pdcurs34\win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -108,10 +110,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>pdcurses.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
