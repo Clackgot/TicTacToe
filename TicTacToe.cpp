@@ -24,17 +24,19 @@ int getMaxY()
 class Point {
 private:
     int x;
-    int y;
-
-    \_(0-0)_/
-       | |
-       |@|
-       |||
-       |||
-
-        
+    int y;    
 public:
     
+    int getX()
+    {
+        return x;
+    }
+
+    void setX(int x)
+    {
+        this->x = x;
+    }
+
 
 };
 
