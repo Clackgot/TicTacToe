@@ -23,22 +23,39 @@ int getMaxY()
 
 class Point {
 private:
-    int x;
-    int y;    
+    int _x;
+    int _y;    
 public:
-    
+    //Конструктор класса
+    Point(int x, int y) 
+    {
+        setX(x);
+        setY(y);
+    }
+
     int getX()
     {
-        return x;
+        return _x;
     }
 
     void setX(int x)
-    {
-        this->x = x;
+    {//TODO Проверка на ввод
+        _x = x;
     }
 
+    int getY()
+    {
+        return _y;
+    }
+
+    void setY(int y)
+    {//TODO Проверка на ввод
+        _y = y;
+    }
 
 };
+
+
 
 
 
@@ -106,6 +123,11 @@ public:
 int main()
 
 {
+    auto point1 = Point(8,18);
+    
+    
+    
+    
     srand(time(0));
     
     int x = 0;
