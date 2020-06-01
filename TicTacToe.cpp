@@ -7,19 +7,49 @@
 #include <ctime>
 #include <vector>
 #include <cmath>
+#include <thread>
+#include <chrono>
 
 using namespace std;
 
+
+
+WINDOW* win;
+
+WINDOW* win2;
+
+
+
+
+
 int getMaxX()
 {
-    return getmaxx(stdscr)-1;
+    return getmaxx(win)-2;
+}
+
+
+int getMinX()
+{
+    return 1;
 }
 
 
 int getMaxY()
 {
-    return getmaxy(stdscr)-1;
+    return getmaxy(win)-2;
 }
+
+int getMinY()
+{
+    return 1;
+}
+
+
+chrono::microseconds getDelayByMs()
+{
+    return 50ms;
+}
+
 
 
 class Point {
@@ -136,7 +166,12 @@ private:
 
     vector<Point> body;
 
+    
+    
+    
+
 public:
+
 
     Snake()
     {
@@ -161,8 +196,8 @@ public:
 
     bool isValidPoint(Point point)
     {
-        bool inAreaX = point.getX() >= 0 && point.getX() <= getMaxX();
-        bool inAreaY = point.getY() >= 0 && point.getY() <= getMaxY();
+        bool inAreaX = point.getX() >= getMinX() && point.getX() <= getMaxX();
+        bool inAreaY = point.getY() >= getMinY() && point.getY() <= getMaxY();
         bool isEmpty = true;
 
         for (auto it : body)
@@ -185,6 +220,36 @@ public:
     }
 
 
+
+    bool isMoveUp()
+    {
+        Point newHead = body[0];
+        newHead.setY(newHead.getY() - 1);
+        return isValidPoint(newHead);
+    }
+
+    bool isMoveDown()
+    {
+        Point newHead = body[0];
+        newHead.setY(newHead.getY() + 1);
+        return isValidPoint(newHead);
+    }
+
+
+    bool isMoveLeft()
+    {
+        Point newHead = body[0];
+        newHead.setX(newHead.getX() - 1);
+        return isValidPoint(newHead);
+    }
+
+
+    bool isMoveRight()
+    {
+        Point newHead = body[0];
+        newHead.setX(newHead.getX() + 1);
+        return isValidPoint(newHead);
+    }
 
 
     void moveUp()
@@ -236,49 +301,39 @@ public:
         }
     }
 
-
-
 };
 
 
+Snake snake;
 
-int main()
-
+void gameLoop(int& ch)
 {
-    /*
-    auto point1 = Point(8,18);
-    auto point2 = Point(4, 84);
-    point1.print();
-    point2.print();
-    cout<< Point::getDistance(point1, point2)<<endl;
-    */
-
-    Snake snake = Snake();
+    
+    win = newwin(30, 30, 0, 0);
+    
+    snake = Snake();
 
 
 
-    initscr();
-    keypad(stdscr, TRUE);
+    
+    keypad(win, TRUE);
     noecho();
     curs_set(0);
-
-
-    int ch = - 1;
-
-
-
-
+    
+    
     while (ch != 'q')
     {
-        erase();
+        wclear(win);
+        box(win, 0, 0);
         for (auto it : snake.getBody())
         {
-            mvaddch(it.getY(), it.getX(), 'X');
+            wmove(win, it.getY(), it.getX());
+            waddch(win, 'X');
         }
-        refresh();
-        ch = getch();
+        wrefresh(win);
+        //ch = wgetch(win);
 
-        
+
         switch (ch)
         {
         case KEY_UP:
@@ -309,14 +364,72 @@ int main()
         default:
             break;
         }
+        //Sleep(getDelay());
+        this_thread::sleep_for(getDelayByMs());
+    }
+
+    
+
+
+    delwin(win);
+    endwin();
+}
+
+
+
+void readKey(int& key)
+{
+    win2 = newwin(10, 10, 0, 30);
+    box(win2, 0, 0);
+    
+    int tempKey;
+
+    keypad(win2, TRUE);
+
+    while (true)
+    {
+        tempKey = wgetch(win2);
+        
+
+        switch (tempKey)
+        {
+        case KEY_UP:
+            if(snake.isMoveUp() && key != KEY_DOWN)key = tempKey;
+            break;
+        case KEY_DOWN:
+            if (snake.isMoveDown() && key != KEY_UP)key = tempKey;
+            break;
+        case KEY_LEFT:
+            if (snake.isMoveLeft() && key != KEY_RIGHT)key = tempKey;
+            break;
+        case KEY_RIGHT:
+            if (snake.isMoveRight() && key != KEY_LEFT)key = tempKey;
+            break;
+        default:
+            break;
+        }
+
+        
     }
 
 
-
-
-
-
+    delwin(win2);
     endwin();
+}
+
+
+
+int main()
+
+{
+    initscr();
+    int key = KEY_DOWN;
+    thread thr1(gameLoop, ref(key));
+    thread thr2(readKey, ref(key));
+    
+    thr2.join();
+    thr1.join();
+
     
     
     
