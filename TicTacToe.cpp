@@ -10,6 +10,17 @@ using namespace std;
 
 
 
+int getMaxX()
+{
+    return 20;
+}
+
+
+int getMaxY()
+{
+    return 20;
+}
+
 //0 - Пусто
 //1 - Крестик
 //2 - Нолик
@@ -21,10 +32,6 @@ class Game
 {
 private:
     bool isRun = false;
-
-    
-    
-
 public:
     Game()
     {
@@ -42,16 +49,12 @@ public:
     {
         endwin();
     }
-
     void run()
     {
         isRun = true;
         while (isRun)
         {
             erase();
-            
-            
-
             for (int y = 0; y < getmaxy(stdscr); y++)
             {
                 for (int x = 0; x < getmaxx(stdscr); x++)
@@ -66,8 +69,6 @@ public:
                 }
 
             }
-
-
             refresh();
             Sleep(3000);
         }
@@ -87,9 +88,22 @@ int main()
 {
     srand(time(0));
     
-    auto game = Game();
+    int x = 0;
+    int y = 0;
 
-    game.run();
+    initscr();
+
+
+
+    printw("x=%d,y=%d | %d", x, y, getmouse());
+
+    refresh();
+    
+    getch();
+
+
+    endwin();
+    
     
     
 }
