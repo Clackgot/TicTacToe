@@ -5,15 +5,23 @@
 #include <Windows.h>
 #include <string>
 #include <ctime>
+#include <vector>
 
 using namespace std;
 
 
+class Snake {
+private:
+
+
+public:
+    vector<int>
+
+};
 
 //0 - Пусто
 //1 - Крестик
 //2 - Нолик
-
 
 
 
