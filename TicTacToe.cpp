@@ -9,16 +9,6 @@
 
 using namespace std;
 
-
-class Snake {
-private:
-
-
-public:
-    vector<int>
-
-};
-
 int getMaxX()
 {
     return 20;
@@ -29,6 +19,26 @@ int getMaxY()
 {
     return 20;
 }
+
+
+class Point {
+private:
+    int x;
+    int y;
+
+    \_(0-0)_/
+       | |
+       |@|
+       |||
+       |||
+
+        
+public:
+    
+
+};
+
+
 
 //0 - Пусто
 //1 - Крестик
