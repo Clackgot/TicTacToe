@@ -187,6 +187,10 @@ public:
     }
 
 
+
+
+
+
     vector<Point> getBody()
     {
         return body;
@@ -320,7 +324,18 @@ void gameLoop(int& ch)
     noecho();
     curs_set(0);
     
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
+    init_pair(2, COLOR_RED, COLOR_BLUE);
+    init_pair(3, COLOR_GREEN, COLOR_GREEN);
+
+
+    init_pair(4, COLOR_YELLOW, COLOR_YELLOW);
+    init_pair(5, COLOR_RED, COLOR_RED);
+    init_pair(6, COLOR_CYAN, COLOR_CYAN);
+
     
+    wbkgdset(win, COLOR_PAIR(6));
     while (ch != 'q')
     {
         wclear(win);
@@ -328,7 +343,11 @@ void gameLoop(int& ch)
         for (auto it : snake.getBody())
         {
             wmove(win, it.getY(), it.getX());
-            waddch(win, 'X');
+            
+            
+            wattron(win,COLOR_PAIR(2));
+            waddch(win, ' ');
+            wattron(win, COLOR_PAIR(1));
         }
         wrefresh(win);
         //ch = wgetch(win);
@@ -423,12 +442,15 @@ int main()
 
 {
     initscr();
+
     int key = KEY_DOWN;
     thread thr1(gameLoop, ref(key));
     thread thr2(readKey, ref(key));
     
     thr2.join();
     thr1.join();
+    //thr2.detach();
+    //thr1.detach();
 
     
     
