@@ -1,7 +1,7 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
-//#include <curses.h>
+#include <curses.h>
 #include <Windows.h>
 #include <string>
 #include <ctime>
@@ -80,18 +80,36 @@ private:
 
 public:
 
-  Snake()
-  {
-      body.push_back(Point(1, 1));
-      body.push_back(Point(1, 2));
-      body.push_back(Point(2, 2));
-      body.push_back(Point(2, 3));
-      body.push_back(Point(3, 3));
-  
-      
+    Snake()
+    {
+        head = 'O';
+        tail = 'X';
+
+        body.push_back(Point(1, 1));
+        body.push_back(Point(1, 2));
+        body.push_back(Point(2, 2));
+        body.push_back(Point(2, 3));
+        body.push_back(Point(3, 3));
+    }
 
 
-  }
+
+    void print()
+    {
+        initscr();
+
+
+
+        for (auto it : body)
+        {
+            mvaddch(it.getY(), it.getX(), tail);
+        }
+        refresh();
+
+        getch();
+
+        endwin();
+    }
 };
 
 
@@ -104,7 +122,9 @@ int main()
     point2.print();
     cout<< Point::getDistance(point1, point2)<<endl;
 
-    
+    auto snake = Snake();
+
+    snake.print();
     
     
         
